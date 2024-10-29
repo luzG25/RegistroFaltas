@@ -1,9 +1,11 @@
 import { useState } from "react";
+import Erro from './Erro'
 
 const FormAdicionarFalta = (props) => {
 
     const [nomeAluno, setNomeAluno] = useState('')
     const [faltas, setFaltas] = useState('')
+    const [erro, setErro] = useState({titulo: '',mensagem:''});
 
     const nomeChangeHandler = (event) => {
         setNomeAluno(event.target.value)
@@ -16,9 +18,12 @@ const FormAdicionarFalta = (props) => {
     const submitHandler = (event) => {
         event.preventDefault();
 
-        if (nomeAluno == "" || faltas == ""){
-            alert("muff meriod")
-        }
+        if (nomeAluno.trim() === '' || (isNaN(faltas) ||1 < faltas > 30)) {
+            setErro({
+              titulo: 'Todos os campos devem estar preenchidos',
+              mensagem: 'Por favor, preencha o nome e insira um número de faltas entre 1 e 30.'
+            });
+            return;}
         else{
             let novaFalta = {
                 'nome': nomeAluno,
@@ -31,6 +36,10 @@ const FormAdicionarFalta = (props) => {
         setNomeAluno('')
         setFaltas('')
        
+    }
+
+    const onCloseErro = () =>{
+        setErro({titulo:'', mensagem:''});
     }
 
 
@@ -54,6 +63,7 @@ const FormAdicionarFalta = (props) => {
                     <button>Adicionar</button>
                 </div>
             </form>
+            <Erro titulo={erro.titulo} mensagem={erro.mensagem} onClose={onCloseErro}/>
         </>
     )
 }
