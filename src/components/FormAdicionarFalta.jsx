@@ -5,7 +5,7 @@ const FormAdicionarFalta = (props) => {
 
     const [nomeAluno, setNomeAluno] = useState('')
     const [faltas, setFaltas] = useState('')
-    const [erro, setErro] = useState({titulo: '',mensagem:''});
+    const [erro, setErro] = useState(null);
 
     const nomeChangeHandler = (event) => {
         setNomeAluno(event.target.value)
@@ -63,7 +63,9 @@ const FormAdicionarFalta = (props) => {
                     <button>Adicionar</button>
                 </div>
             </form>
-            <Erro titulo={erro.titulo} mensagem={erro.mensagem} onClose={onCloseErro}/>
+            {
+                erro && <Erro titulo={erro.titulo} mensagem={erro.mensagem} onClose={onCloseErro}/>
+            }
         </>
     )
 }
